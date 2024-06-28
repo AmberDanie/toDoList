@@ -5,6 +5,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+/* part 2 */
+
 data class CustomTypography(
     val largeTitle: TextStyle = TextStyle(
         fontFamily = FontFamily.SansSerif,

@@ -1,10 +1,14 @@
-package pet.project.todolist.ui.data
+package pet.project.todolist.data
 
+import androidx.annotation.StringRes
+import pet.project.todolist.R
 import java.time.LocalDate
 import java.util.Date
 
-enum class TaskImportance(val importanceString: String) {
-    LOW("Низкий"), DEFAULT("Нет"), HIGH("Высокий")
+/* part 2 */
+
+enum class TaskImportance(@StringRes val importanceString: Int) {
+    LOW(R.string.Low), DEFAULT(R.string.Default), HIGH(R.string.High)
 }
 
 data class TodoItem(

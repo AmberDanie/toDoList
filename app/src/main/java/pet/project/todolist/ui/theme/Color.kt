@@ -2,6 +2,8 @@ package pet.project.todolist.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+/* part 2 */
+
 // Light theme
 val SupportLightSeparator = Color(0x33000000)
 val SupportLightOverlay = Color(0x0F000000)
@@ -19,6 +21,10 @@ val BackLightPrimary = Color(0xFFF7F6F2)
 val BackLightSecondary = Color(0xFFFFFFFF)
 val BackLightElevated = Color(0xFFFFFFFF)
 
+val lightThemeColorList = listOf(SupportLightSeparator, SupportLightOverlay, LabelLightPrimary,
+    LabelLightSecondary, LabelLightTertiary, LabelLightDisable, LightRed, LightGreen, LightBlue,
+    LightGray, LightGrayLight, LightWhite, BackLightPrimary, BackLightSecondary, BackLightElevated)
+
 // Dark theme
 val SupportDarkSeparator = Color(0x33FFFFFF)
 val SupportDarkOverlay = Color(0x52000000)
@@ -35,3 +41,8 @@ val DarkWhite = Color(0xFFFFFFFF)
 val BackDarkPrimary = Color(0xFF161618)
 val BackDarkSecondary = Color(0xFF252528)
 val BackDarkElevated = Color(0xFF3C3C3F)
+
+val darkThemeColorList = listOf(
+    SupportDarkSeparator, SupportDarkOverlay, LabelDarkPrimary,
+    LabelDarkSecondary, LabelDarkTertiary, LabelDarkDisable, DarkRed, DarkGreen, DarkBlue,
+    DarkGray, DarkGrayLight, DarkWhite, BackDarkPrimary, BackDarkSecondary, BackDarkElevated)

@@ -1,15 +1,17 @@
-package pet.project.todolist.ui
+package pet.project.todolist.data
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import pet.project.todolist.ui.data.TaskImportance
-import pet.project.todolist.ui.data.TodoItem
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.util.Date
 
-class TodoItemsRepository {
+/* part 2 */
+
+class TodoItemsRepository : ItemsRepository<TodoItem> {
     // Список захардкожен внутри стейт флоу
     private val _itemsState = MutableStateFlow(
         listOf(
@@ -200,38 +202,46 @@ class TodoItemsRepository {
             )
         )
     )
-    val itemsState = _itemsState.asStateFlow()
 
-    fun changeMadeStatus(item: TodoItem) {
-        val list = _itemsState.value.toMutableList()
-        list[list.indexOf(item)] = item.copy(isMade = !item.isMade)
-        _itemsState.update {
-            list
+    override suspend fun changeMadeStatus(item: TodoItem) {
+        withContext(Dispatchers.IO) {
+            val list = _itemsState.value.toMutableList()
+            list[list.indexOf(item)] = item.copy(isMade = !item.isMade)
+            _itemsState.update {
+                list
+            }
         }
     }
 
-    fun updateItemInList(oldItem: TodoItem, newItem: TodoItem) {
-        val list = _itemsState.value.toMutableList()
-        list[list.indexOf(oldItem)] = newItem
-        _itemsState.update {
-            list
+    override suspend fun updateItemInList(oldItem: TodoItem, newItem: TodoItem) {
+        withContext(Dispatchers.IO) {
+            val list = _itemsState.value.toMutableList()
+            list[list.indexOf(oldItem)] = newItem
+            _itemsState.update {
+                list
+            }
         }
     }
 
-    fun removeTodoItem(item: TodoItem) {
-        val list = _itemsState.value.toMutableList()
-        list.remove(item)
-        _itemsState.update {
-            list
+    override suspend fun removeTodoItem(item: TodoItem) {
+        withContext(Dispatchers.IO) {
+            val list = _itemsState.value.toMutableList()
+            list.remove(item)
+            _itemsState.update {
+                list
+            }
         }
     }
 
-    fun addItemToList(item: TodoItem) {
-        _itemsState.update {
-            it + item
+    override suspend fun addItemToList(item: TodoItem) {
+        withContext(Dispatchers.IO) {
+            _itemsState.update {
+                it + item
+            }
         }
     }
-    fun returnTodoItemsList(): Flow<List<TodoItem>> {
-        return itemsState
+
+    override fun returnTodoItemsList(): StateFlow<List<TodoItem>> {
+        return _itemsState.asStateFlow()
     }
 }

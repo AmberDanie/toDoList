@@ -14,10 +14,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import pet.project.todolist.ui.MainScreen
-import pet.project.todolist.ui.MainScreenViewModel
-import pet.project.todolist.ui.NavGraph
 import pet.project.todolist.ui.TaskScreen
+import pet.project.todolist.ui.theme.AppTheme
 import pet.project.todolist.ui.theme.CustomTheme
+import pet.project.todolist.viewmodels.MainScreenViewModel
+
+/* part 2 */
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            CustomTheme {
+            AppTheme {
                 val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -38,7 +40,8 @@ class MainActivity : ComponentActivity() {
                         enterTransition = { fadeIn() },
                         exitTransition = { fadeOut() },
                         popEnterTransition = { fadeIn() },
-                        popExitTransition = { fadeOut() }) {
+                        popExitTransition = { fadeOut() }
+                    ) {
                         composable(route = NavGraph.Main.name) {
                             MainScreen(mainScreenViewModel, navController)
                         }
@@ -55,7 +58,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AppDarkPreview() {
-    CustomTheme(darkTheme = true) {
+    AppTheme(darkTheme = true) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = CustomTheme.colors.backPrimary
@@ -68,7 +71,7 @@ fun AppDarkPreview() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AppLightPreview() {
-    CustomTheme(darkTheme = false) {
+    AppTheme(darkTheme = false) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = CustomTheme.colors.backPrimary

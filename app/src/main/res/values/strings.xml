@@ -3,4 +3,11 @@
     <string name="main_title">Мои дела</string>
     <string name="tasks_done">Выполнено — %1$s из %2$d</string>
     <string name="save">СОХРАНИТЬ</string>
+    <string name="Low">Низкий</string>
+    <string name="High">Высокий</string>
+    <string name="Default">Нет</string>
+    <string name="task_placeholder">Что надо сделать...</string>
+    <string name="Importance">Важность</string>
+    <string name="Deadline_title">Сделать до</string>
+    <string name="Delete">Удалить</string>
 </resources>

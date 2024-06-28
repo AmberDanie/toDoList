@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,16 +43,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pet.project.todolist.NavGraph
 import pet.project.todolist.R
-import pet.project.todolist.ui.data.TaskImportance
-import pet.project.todolist.ui.data.TodoItem
+import pet.project.todolist.data.TaskImportance
+import pet.project.todolist.data.TodoItem
+import pet.project.todolist.ui.theme.AppTheme
 import pet.project.todolist.ui.theme.CustomTheme
+import pet.project.todolist.viewmodels.MainScreenViewModel
+import java.time.LocalDate
+import java.util.Date
+
+/* part 2 */
 
 @Composable
 fun MainScreen(
     mainScreenViewModel: MainScreenViewModel,
-    navController: NavController,
-    modifier: Modifier = Modifier) {
+    navController: NavController) {
     val msState by mainScreenViewModel.msState.collectAsState()
     val items = msState.itemsList
     val showCompleted = msState.showCompleted
@@ -63,7 +71,7 @@ fun MainScreen(
             onCheckedChange = {
                 mainScreenViewModel.checkboxClick(it)
             },
-            onInfoClick = { it ->
+            onInfoClick = {
                 mainScreenViewModel.updateCurrentItem(it)
                 navController.navigate(NavGraph.Task.name)
             },
@@ -71,14 +79,6 @@ fun MainScreen(
         )
         FloatingActionButton(
             onClick = {
-//                mainScreenViewModel.addTodoItem(
-//                    TodoItem(
-//                        id = (items.last().id.toInt() + 1).toString(),
-//                        text = "Купить что-то, где-то, зачем-то, но зачем не очень понятно",
-//                        isMade = false,
-//                        creationDate = Date()
-//                    )
-//                )
                 navController.navigate(NavGraph.Task.name)
             },
             modifier = Modifier
@@ -94,13 +94,12 @@ fun MainScreen(
 }
 
 @Composable
-fun MainScreenTitle(
+private fun MainScreenTitle(
     toDoItems: List<TodoItem>,
     showOrHideTasks: () -> Unit,
     onCheckedChange: (TodoItem) -> Unit,
     onInfoClick: (TodoItem) -> Unit,
-    showCompleted: Boolean,
-    modifier: Modifier = Modifier) {
+    showCompleted: Boolean) {
     val tasksDone = toDoItems.count { it.isMade }
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -180,8 +179,7 @@ fun ListItem(
     onCheckedChange: (TodoItem) -> Unit,
     onInfoClick: (TodoItem) -> Unit,
     modifier: Modifier = Modifier) {
-    Row(
-    ) {
+    Row {
         Checkbox(checked = item.isMade,
             onCheckedChange = {
                 onCheckedChange(item)
@@ -243,6 +241,83 @@ fun ListItem(
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
-fun MainScreenPreview() {
-    MainScreen(MainScreenViewModel(), rememberNavController())
+private fun MainScreenLightPreview() {
+    AppTheme(darkTheme = false) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = CustomTheme.colors.backPrimary
+        ) {
+            MainScreen(MainScreenViewModel(), rememberNavController())
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun TodoItemLightPreview() {
+    AppTheme(darkTheme = false) {
+        val item = TodoItem(
+            id = "0",
+            text = "Сделать превью для итема",
+            importance = TaskImportance.HIGH,
+            deadline = LocalDate.parse("2024-06-29"),
+            isMade = true,
+            creationDate = Date()
+        )
+        ElevatedCard(
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = CustomTheme.colors.backSecondary,
+                contentColor = CustomTheme.colors.labelSecondary
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                2.dp
+            )
+        ) {
+            ListItem(item = item,
+                onCheckedChange = {},
+                onInfoClick = {})
+        }
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true, showBackground = true)
+private fun MainScreenDarkPreview() {
+    AppTheme(darkTheme = true) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = CustomTheme.colors.backPrimary
+        ) {
+            MainScreen(MainScreenViewModel(), rememberNavController())
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun TodoItemDarkPreview() {
+    AppTheme(darkTheme = true) {
+        val item = TodoItem(
+            id = "0",
+            text = "Сделать превью для итема",
+            importance = TaskImportance.HIGH,
+            deadline = LocalDate.parse("2024-06-29"),
+            isMade = true,
+            creationDate = Date()
+        )
+        ElevatedCard(
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = CustomTheme.colors.backSecondary,
+                contentColor = CustomTheme.colors.labelSecondary
+            ),
+            elevation = CardDefaults.elevatedCardElevation(
+                2.dp
+            ),
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+        ) {
+            ListItem(item = item,
+                onCheckedChange = {},
+                onInfoClick = {})
+        }
+    }
 }

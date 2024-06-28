@@ -1,4 +1,4 @@
-package pet.project.todolist.ui
+package pet.project.todolist.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pet.project.todolist.ui.data.TodoItem
+import pet.project.todolist.data.TodoItem
+import pet.project.todolist.data.TodoItemsRepository
+
+/* part 2 */
 
 class MainScreenViewModel(private val repository: TodoItemsRepository = TodoItemsRepository()) : ViewModel() {
 
     private val _msState = MutableStateFlow(MainScreenUiState())
     val msState = _msState.asStateFlow()
-
 
     fun showOrHideCompletedTasks() {
         _msState.update {
@@ -39,22 +41,30 @@ class MainScreenViewModel(private val repository: TodoItemsRepository = TodoItem
     }
 
     fun updateItemInList(oldItem: TodoItem, newItem: TodoItem) {
-        repository.updateItemInList(oldItem, newItem)
-        resetCurrentItem()
+        viewModelScope.launch {
+            repository.updateItemInList(oldItem, newItem)
+            resetCurrentItem()
+        }
     }
 
     fun addTodoItem(item: TodoItem) {
-        repository.addItemToList(item)
-        resetCurrentItem()
+        viewModelScope.launch {
+            repository.addItemToList(item)
+            resetCurrentItem()
+        }
     }
 
     fun removeTodoItem(item: TodoItem) {
-        repository.removeTodoItem(item)
+        viewModelScope.launch {
+            repository.removeTodoItem(item)
+        }
         resetCurrentItem()
     }
 
     fun checkboxClick(item: TodoItem) {
-        repository.changeMadeStatus(item)
+        viewModelScope.launch {
+            repository.changeMadeStatus(item)
+        }
     }
 
     init {

@@ -1,11 +1,9 @@
 package pet.project.todolist.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.remember
+
+/* part 2 */
 
 object CustomTheme {
     val colors: CustomColors
